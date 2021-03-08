@@ -1,0 +1,29 @@
+{
+  "name": "quora-like-app",
+  "version": "1.0.0",
+  "description": "This Is A Full Stack Quora-like Application Using The Mern Stack, Where Users Register An account, Create Stories, Like Stories, Comment And Share Stories, also has a dashboard functionality",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boybenson/Quora-Like-App.git"
+  },
+  "author": "Yeboah Benson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/boybenson/Quora-Like-App/issues"
+  },
+  "homepage": "https://github.com/boybenson/Quora-Like-App#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "5.11.15"
+  }
+}
