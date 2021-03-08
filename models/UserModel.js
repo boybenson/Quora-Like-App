@@ -18,6 +18,21 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+userSchema.statics.login = async function (email, password) {
+  const user = await this.findOne({ email });
+  if (user) {
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (isMatch) {
+      return user;
+    }
+
+    const err = new Error();
+    err.status = 403;
+    return err;
+  }
+};
+
+//Mongoose hook to save hash the password before saving to database
 userSchema.pre("save", async function () {
   // bcrypt salt
   const saltRound = 10;
