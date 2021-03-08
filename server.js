@@ -3,6 +3,8 @@ dotenv.config();
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import authRouter from "./routers/authRouter.js";
+import errorHandler from "./middlewares.js/errorHandler.js";
 
 const port = process.env.PORT || 8080;
 
@@ -13,6 +15,7 @@ mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
   })
   .then(() => {
     console.log("Database connected");
@@ -27,3 +30,9 @@ mongoose
 //middlewares
 app.use(cors());
 app.use(express.json());
+
+// route middlewares
+app.use("/api/auth", authRouter);
+
+// error handler
+app.use(errorHandler);
