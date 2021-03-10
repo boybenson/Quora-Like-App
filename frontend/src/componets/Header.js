@@ -1,6 +1,6 @@
 import React from "react";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
 // import MoreVertIcon from "@material-ui/icons/MoreVert";
 import CreateIcon from "@material-ui/icons/Create";
 import HomeIcon from "@material-ui/icons/Home";
@@ -10,54 +10,46 @@ const Header = () => {
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
         <Navbar.Brand href="#home">Quora-Like</Navbar.Brand>
+
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ml-auto">
-            <NavLink to="/">
-              <Nav.Link href="#deets">
-                Home <HomeIcon />{" "}
-              </Nav.Link>
-            </NavLink>
+            <Nav.Link href="#deets">
+              Home <HomeIcon />
+            </Nav.Link>
 
-            <NavLink to="/">
-              <Nav.Link href="#deets">Signin</Nav.Link>
-            </NavLink>
+            <LinkContainer to="/auth/login">
+              <Nav.Link>Signin</Nav.Link>
+            </LinkContainer>
 
-            <NavLink to="/">
-              <Nav.Link href="#deets">Signup</Nav.Link>
-            </NavLink>
+            <LinkContainer to="/auth/register">
+              <Nav.Link>Signup</Nav.Link>
+            </LinkContainer>
 
             <NavDropdown title={"More"} id="collasible-nav-dropdown">
-              <NavLink to="/">
-                <Nav.Link href="#">
-                  <NavDropdown.Item href="#action/3.1">
-                    Update Profile
-                  </NavDropdown.Item>
-                </Nav.Link>
-              </NavLink>
-              <NavLink to="/">
-                <Nav.Link href="#">
-                  <NavDropdown.Item href="#action/3.1">
-                    My Stories
-                  </NavDropdown.Item>
-                </Nav.Link>
-              </NavLink>
-              <NavLink to="/">
-                <Nav.Link href="#">
-                  <NavDropdown.Item href="#action/3.1">
-                    The Developer
-                  </NavDropdown.Item>
-                </Nav.Link>
-              </NavLink>
+              <LinkContainer to="/t">
+                <NavDropdown.Item className="dropdown__link">
+                  Update Profile
+                </NavDropdown.Item>
+              </LinkContainer>
+
+              <LinkContainer to="/j">
+                <NavDropdown.Item>My Stories</NavDropdown.Item>
+              </LinkContainer>
+
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#">Logout</NavDropdown.Item>
+
+              <LinkContainer to="/i">
+                <NavDropdown.Item>Logout</NavDropdown.Item>
+              </LinkContainer>
             </NavDropdown>
 
-            <NavLink to="/">
-              <Nav.Link href="#deets">
+            <LinkContainer to="/">
+              <Nav.Link>
                 Create A Story <CreateIcon />
               </Nav.Link>
-            </NavLink>
+            </LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Container>
