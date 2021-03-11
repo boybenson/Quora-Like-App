@@ -2,6 +2,7 @@ import {
   USER_LOGIN_FAILURE,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
+  USER_LOGOUT,
 } from "../constants";
 
 export const userLoginReducer = (state = {}, { type, payload }) => {
@@ -27,8 +28,12 @@ export const userLoginReducer = (state = {}, { type, payload }) => {
         loading: false,
         userInfo: null,
         success: false,
-        data: payload,
+        errorData: payload,
       };
+
+    case USER_LOGOUT:
+      return {};
+
     default:
       return state;
   }

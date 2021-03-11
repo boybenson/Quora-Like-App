@@ -1,21 +1,37 @@
-import React, { useState } from "react";
-import { Container, Form, Button, Spinner } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Container, Form, Button, Spinner, Alert } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../redux/actions/authActions";
 
-const LoginScreen = () => {
+const LoginScreen = ({ history }) => {
   const dispatch = useDispatch();
+
+  // Pulling data from redux state
   const user = useSelector((state) => state.userLogin);
+  const userLoginFromStore = useSelector((state) => state.userLogin);
+  const { userInfo, errorData } = userLoginFromStore;
+
+  // State To Handle Any Empty Input Error
+  const [isEmptyInput, setIsEmptyInput] = useState(false);
+
+  // State To Hanlde Any Server Error
+  const [serverError, setServerError] = useState(false);
 
   // internal states to handle control inputs
-  const [email, setEmail] = useState("benson63@gmail.com");
-  const [password, setPassword] = useState("123456");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   // function to handle form submit
   const HandleFormSubmit = (e) => {
     e.preventDefault();
-    dispatch(userLogin(email, password));
+    setIsEmptyInput(false);
+    setServerError(false);
+    if (email === "" || password === "") {
+      setIsEmptyInput(true);
+    } else {
+      dispatch(userLogin(email, password));
+    }
   };
 
   // regex patterns
@@ -35,70 +51,106 @@ const LoginScreen = () => {
     }
   };
 
+  useEffect(() => {
+    if (userInfo) {
+      history.push("/");
+    }
+  }, [userInfo, history]);
+
+  // Handle server error
+  useEffect(() => {
+    if (errorData) {
+      setServerError(true);
+    }
+  }, [setServerError, errorData]);
+
   return (
     <Container className="mt-5">
-      <Container>
-        <Form onSubmit={HandleFormSubmit}>
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email address :</Form.Label>
-            <Form.Control
-              name="email"
-              type="email"
-              placeholder="Enter email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              autoComplete="off"
-              onKeyUp={(e) =>
-                ValidateInput(
-                  e,
-                  e.target,
-                  patterns[e.target.attributes.name.value]
-                )
-              }
-            />
-            <small>Please Enter A Valid Email Address</small>
-          </Form.Group>
+      <Form onSubmit={HandleFormSubmit}>
+        {/* Alert To Show Is Empty Input */}
+        {isEmptyInput && (
+          <Alert
+            className="text-center"
+            variant="danger"
+            onClose={() => setIsEmptyInput(false)}
+            dismissible
+          >
+            <small>Please Input All Fields</small>
+          </Alert>
+        )}
 
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password :</Form.Label>
-            <Form.Control
-              name="password"
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              onKeyUp={(e) =>
-                ValidateInput(
-                  e,
-                  e.target,
-                  patterns[e.target.attributes.name.value]
-                )
-              }
-            />
-            <small>
-              Password must alphanumeric (@, _ and - are also allowed) and be 8
-              - 20 characters
-            </small>
-          </Form.Group>
+        {/* Alert To show Server Error */}
 
-          {!user.loading && (
-            <Button variant="outline-dark" type="submit">
-              Login
-            </Button>
-          )}
+        {serverError && (
+          <Alert
+            variant="danger"
+            onClose={() => setServerError(false)}
+            dismissible
+          >
+            {errorData.message}
+          </Alert>
+        )}
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>Email address :</Form.Label>
+          <Form.Control
+            name="email"
+            type="email"
+            placeholder="Enter email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="off"
+            onKeyUp={(e) =>
+              ValidateInput(
+                e,
+                e.target,
+                patterns[e.target.attributes.name.value]
+              )
+            }
+          />
+          <small>Please Enter A Valid Email Address</small>
+        </Form.Group>
 
-          {user.loading && (
-            <Button variant="outline-dark" type="submit">
-              <Spinner animation="border" size="sm" />
-              Loading...
-            </Button>
-          )}
+        <Form.Group controlId="formBasicPassword">
+          <Form.Label>Password :</Form.Label>
+          <Form.Control
+            name="password"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            onKeyUp={(e) =>
+              ValidateInput(
+                e,
+                e.target,
+                patterns[e.target.attributes.name.value]
+              )
+            }
+          />
+          <small>
+            Password must alphanumeric (@, _ and - are also allowed) and be 8 -
+            20 characters
+          </small>
+        </Form.Group>
 
-          <Form.Group className="mt-2">
-            A new User ? <NavLink to="/auth/register">Register</NavLink>
-          </Form.Group>
-        </Form>
-      </Container>
+        {/* Dynamically rendering buttons */}
+        {!user.loading && (
+          <Button variant="outline-dark" type="submit">
+            Login
+          </Button>
+        )}
+
+        {user.loading && (
+          <Button variant="outline-dark" type="submit">
+            <Spinner animation="border" size="sm" />
+            Loading...
+          </Button>
+        )}
+
+        {/* Link To Register Route */}
+        <Form.Group className="mt-2">
+          A new User ? <NavLink to="/auth/register">Register</NavLink>
+        </Form.Group>
+      </Form>
     </Container>
   );
 };

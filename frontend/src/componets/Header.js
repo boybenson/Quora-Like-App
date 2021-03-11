@@ -3,24 +3,34 @@ import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import CreateIcon from "@material-ui/icons/Create";
 import HomeIcon from "@material-ui/icons/Home";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { userLogout } from "../redux/actions/authActions";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  // Handle logout action
+  const handleLogout = () => {
+    dispatch(userLogout());
+  };
 
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand href="#home">Quora-Like</Navbar.Brand>
-
+        <LinkContainer to="/">
+          <Navbar.Brand>Quora-Like</Navbar.Brand>
+        </LinkContainer>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ml-auto">
-            <Nav.Link href="#deets">
-              Home <HomeIcon />
-            </Nav.Link>
+            <LinkContainer to="/">
+              <Nav.Link>
+                Home <HomeIcon />
+              </Nav.Link>
+            </LinkContainer>
 
             {userInfo ? (
               <>
@@ -37,12 +47,12 @@ const Header = () => {
 
                   <NavDropdown.Divider />
 
-                  <LinkContainer to="/i">
-                    <NavDropdown.Item>Logout</NavDropdown.Item>
-                  </LinkContainer>
+                  <NavDropdown.Item onClick={handleLogout}>
+                    Logout
+                  </NavDropdown.Item>
                 </NavDropdown>
 
-                <LinkContainer to="/">
+                <LinkContainer to="/user/create-a-story">
                   <Nav.Link>
                     Create A Story <CreateIcon />
                   </Nav.Link>

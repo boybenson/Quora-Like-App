@@ -3,7 +3,10 @@ import {
   USER_LOGIN_FAILURE,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
+  USER_LOGOUT,
 } from "../constants";
+
+// Action For Login
 export const userLogin = (email, password) => {
   return async (dispatch) => {
     try {
@@ -36,4 +39,10 @@ export const userLogin = (email, password) => {
       console.log(error);
     }
   };
+};
+
+// Action For Logout
+export const userLogout = () => async (dispatch) => {
+  localStorage.removeItem("userInfo");
+  dispatch({ type: USER_LOGOUT });
 };

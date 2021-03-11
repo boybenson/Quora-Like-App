@@ -11,6 +11,7 @@ const initialState = {
   userLogin: {
     userInfo: userInfoFromLocalStorage,
     loading: false,
+    errorData: null,
   },
 };
 
