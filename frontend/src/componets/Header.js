@@ -1,11 +1,14 @@
 import React from "react";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-// import MoreVertIcon from "@material-ui/icons/MoreVert";
 import CreateIcon from "@material-ui/icons/Create";
 import HomeIcon from "@material-ui/icons/Home";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
@@ -19,37 +22,43 @@ const Header = () => {
               Home <HomeIcon />
             </Nav.Link>
 
-            <LinkContainer to="/auth/login">
-              <Nav.Link>Signin</Nav.Link>
-            </LinkContainer>
+            {userInfo ? (
+              <>
+                <NavDropdown title={"More"} id="collasible-nav-dropdown">
+                  <LinkContainer to="/t">
+                    <NavDropdown.Item className="dropdown__link">
+                      Update Profile
+                    </NavDropdown.Item>
+                  </LinkContainer>
 
-            <LinkContainer to="/auth/register">
-              <Nav.Link>Signup</Nav.Link>
-            </LinkContainer>
+                  <LinkContainer to="/j">
+                    <NavDropdown.Item>My Stories</NavDropdown.Item>
+                  </LinkContainer>
 
-            <NavDropdown title={"More"} id="collasible-nav-dropdown">
-              <LinkContainer to="/t">
-                <NavDropdown.Item className="dropdown__link">
-                  Update Profile
-                </NavDropdown.Item>
-              </LinkContainer>
+                  <NavDropdown.Divider />
 
-              <LinkContainer to="/j">
-                <NavDropdown.Item>My Stories</NavDropdown.Item>
-              </LinkContainer>
+                  <LinkContainer to="/i">
+                    <NavDropdown.Item>Logout</NavDropdown.Item>
+                  </LinkContainer>
+                </NavDropdown>
 
-              <NavDropdown.Divider />
+                <LinkContainer to="/">
+                  <Nav.Link>
+                    Create A Story <CreateIcon />
+                  </Nav.Link>
+                </LinkContainer>
+              </>
+            ) : (
+              <>
+                <LinkContainer to="/auth/login">
+                  <Nav.Link>Signin</Nav.Link>
+                </LinkContainer>
 
-              <LinkContainer to="/i">
-                <NavDropdown.Item>Logout</NavDropdown.Item>
-              </LinkContainer>
-            </NavDropdown>
-
-            <LinkContainer to="/">
-              <Nav.Link>
-                Create A Story <CreateIcon />
-              </Nav.Link>
-            </LinkContainer>
+                <LinkContainer to="/auth/register">
+                  <Nav.Link>Signup</Nav.Link>
+                </LinkContainer>
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -3,7 +3,16 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import ReduxThunk from "redux-thunk";
 import rootReducer from "./reducers/rootReducer";
 
-const initialState = {};
+const userInfoFromLocalStorage = localStorage.getItem("userInfo")
+  ? JSON.parse(localStorage.getItem("userInfo"))
+  : null;
+
+const initialState = {
+  userLogin: {
+    userInfo: userInfoFromLocalStorage,
+    loading: false,
+  },
+};
 
 const store = createStore(
   rootReducer,

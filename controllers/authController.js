@@ -60,6 +60,7 @@ export const LOGIN_POST = async (req, res, next) => {
       userName: user.userName,
       userId: user._id,
       token,
+      status: 200,
     });
   } catch (error) {
     const err = new Error(error.message);

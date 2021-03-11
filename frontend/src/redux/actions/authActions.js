@@ -1,5 +1,9 @@
 import axios from "axios";
-import { USER_LOGIN_REQUEST } from "../constants";
+import {
+  USER_LOGIN_FAILURE,
+  USER_LOGIN_REQUEST,
+  USER_LOGIN_SUCCESS,
+} from "../constants";
 export const userLogin = (email, password) => {
   return async (dispatch) => {
     try {
@@ -20,7 +24,16 @@ export const userLogin = (email, password) => {
         config
       );
 
+      if (data.status === 200) {
+        localStorage.setItem("userInfo", JSON.stringify(data));
+        dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+      } else {
+        dispatch({ type: USER_LOGIN_FAILURE, payload: data });
+      }
+
       console.log(data);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 };

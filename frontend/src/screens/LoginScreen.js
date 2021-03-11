@@ -1,25 +1,31 @@
 import React, { useState } from "react";
-import { Container, Form, Button } from "react-bootstrap";
+import { Container, Form, Button, Spinner } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../redux/actions/authActions";
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const user = useSelector((state) => state.userLogin);
 
+  // internal states to handle control inputs
+  const [email, setEmail] = useState("benson63@gmail.com");
+  const [password, setPassword] = useState("123456");
+
+  // function to handle form submit
   const HandleFormSubmit = (e) => {
     e.preventDefault();
     dispatch(userLogin(email, password));
   };
 
+  // regex patterns
   const patterns = {
     // eslint-disable-next-line
     email: /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/,
     password: /^[\d\w@-]{8,20}$/i,
   };
 
+  // function to validate regex
   const ValidateInput = (e, field, regex) => {
     e.preventDefault();
     if (regex.test(field.value)) {
@@ -39,6 +45,7 @@ const LoginScreen = () => {
               name="email"
               type="email"
               placeholder="Enter email"
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="off"
               onKeyUp={(e) =>
@@ -58,6 +65,7 @@ const LoginScreen = () => {
               name="password"
               type="password"
               placeholder="Password"
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
               onKeyUp={(e) =>
                 ValidateInput(
@@ -73,9 +81,18 @@ const LoginScreen = () => {
             </small>
           </Form.Group>
 
-          <Button variant="outline-dark" type="submit">
-            Login
-          </Button>
+          {!user.loading && (
+            <Button variant="outline-dark" type="submit">
+              Login
+            </Button>
+          )}
+
+          {user.loading && (
+            <Button variant="outline-dark" type="submit">
+              <Spinner animation="border" size="sm" />
+              Loading...
+            </Button>
+          )}
 
           <Form.Group className="mt-2">
             A new User ? <NavLink to="/auth/register">Register</NavLink>

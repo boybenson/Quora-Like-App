@@ -25,8 +25,9 @@ export const userLoginReducer = (state = {}, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        userInfo: payload,
+        userInfo: null,
         success: false,
+        data: payload,
       };
     default:
       return state;
