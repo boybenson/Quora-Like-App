@@ -1,0 +1,11 @@
+.invalid + small {
+  opacity: 1;
+  height: auto;
+  margin-bottom: 20px;
+  color: red;
+  display: block;
+}
+
+input + small {
+  display: none;
+}
