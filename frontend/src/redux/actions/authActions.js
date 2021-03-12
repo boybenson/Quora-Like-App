@@ -33,10 +33,8 @@ export const userLogin = (email, password) => {
       } else {
         dispatch({ type: USER_LOGIN_FAILURE, payload: data });
       }
-
-      console.log(data);
     } catch (error) {
-      console.log(error);
+      dispatch({ type: USER_LOGIN_FAILURE, payload: error.message });
     }
   };
 };
