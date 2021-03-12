@@ -3,7 +3,7 @@ import storyModel from "../models/StoryModel.js";
 // Create A Story
 export const POST_CREATE_A_STORY = async (req, res, next) => {
   const { title, body } = req.body;
-  const author = req.params.userId;
+  const author = req.author;
   const featuredImage = req.file.path.replace(/\\/g, "/");
 
   try {
