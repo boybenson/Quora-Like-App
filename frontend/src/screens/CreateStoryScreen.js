@@ -64,7 +64,9 @@ const CreateStoryScreen = () => {
             <Alert
               className="text-center"
               variant="success"
-              onClose={() => setIsSuccess(false)}
+              onClose={setTimeout(() => {
+                setIsSuccess(false);
+              }, 4000)}
               dismissible
             >
               <small>Story Created Successfully!</small>
@@ -76,7 +78,9 @@ const CreateStoryScreen = () => {
             <Alert
               className="text-center"
               variant="danger"
-              onClose={() => setIsFailed(false)}
+              onClose={setTimeout(() => {
+                setIsFailed(false);
+              }, 3000)}
               dismissible
             >
               <small>{storyFromStore.errorData.message}</small>
@@ -88,7 +92,9 @@ const CreateStoryScreen = () => {
             <Alert
               className="text-center"
               variant="danger"
-              onClose={() => setIsEmptyInput(false)}
+              onClose={setTimeout(() => {
+                setIsEmptyInput(false);
+              }, 3000)}
               dismissible
             >
               <small>Please Input All Fields</small>

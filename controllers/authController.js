@@ -62,7 +62,6 @@ export const LOGIN_POST = async (req, res, next) => {
       token,
       status: 200,
     });
-    console.log(token);
   } catch (error) {
     const err = new Error(error.message);
     err.status = 500;
