@@ -4,7 +4,7 @@ import {
   CREATE_STORY_SUCCESS,
 } from "../constants";
 
-export const storyReducer = (state = {}, { type, payload }) => {
+export const createStoryReducer = (state = {}, { type, payload }) => {
   switch (type) {
     case CREATE_STORY_REQUEST:
       return {

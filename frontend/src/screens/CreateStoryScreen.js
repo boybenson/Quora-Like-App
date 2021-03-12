@@ -6,7 +6,7 @@ import { createStory } from "../redux/actions/storyActions";
 
 const CreateStoryScreen = () => {
   const dispatch = useDispatch();
-  const storyFromStore = useSelector((state) => state.story);
+  const storyFromStore = useSelector((state) => state.createStory);
 
   // States to handle the control inputs
   const [title, setTitle] = useState("");

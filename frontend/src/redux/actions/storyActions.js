@@ -5,6 +5,7 @@ import {
   CREATE_STORY_SUCCESS,
 } from "../constants";
 
+// Action to create a story
 export const createStory = (formData) => async (dispatch) => {
   try {
     dispatch({ type: CREATE_STORY_REQUEST });

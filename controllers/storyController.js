@@ -37,3 +37,24 @@ export const POST_CREATE_A_STORY = async (req, res, next) => {
     next(err);
   }
 };
+
+// Fetch All Stories
+export const GET_ALL_STORIES = async (req, res, next) => {
+  try {
+    const stories = await storyModel.find({});
+    if (stories) {
+      res.status(200).json({
+        stories,
+        status: 200,
+      });
+    } else {
+      const err = new Error("Internal Server Error");
+      err.status = 500;
+      next(err);
+    }
+  } catch (error) {
+    const err = new Error(error.message);
+    err.status = 500;
+    next(err);
+  }
+};
