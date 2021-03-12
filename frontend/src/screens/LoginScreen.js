@@ -72,7 +72,9 @@ const LoginScreen = ({ history }) => {
           <Alert
             className="text-center"
             variant="danger"
-            onClose={() => setIsEmptyInput(false)}
+            onClose={setTimeout(() => {
+              setIsEmptyInput(false);
+            }, 3000)}
             dismissible
           >
             <small>Please Input All Fields</small>
@@ -84,7 +86,9 @@ const LoginScreen = ({ history }) => {
         {serverError && (
           <Alert
             variant="danger"
-            onClose={() => setServerError(false)}
+            onClose={setTimeout(() => {
+              setServerError(false);
+            }, 3000)}
             dismissible
           >
             {errorData.message}

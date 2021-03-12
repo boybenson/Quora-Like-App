@@ -4,7 +4,8 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import authRouter from "./routers/authRouter.js";
-import errorHandler from "./middlewares.js/errorHandler.js";
+import errorHandler from "./middlewares/errorHandler.js";
+import storyRouter from "./routers/storyRouter.js";
 
 const port = process.env.PORT || 8080;
 
@@ -33,6 +34,7 @@ app.use(express.json());
 
 // route middlewares
 app.use("/api/auth", authRouter);
+app.use("/api/stories", storyRouter);
 
 // error handler
 app.use(errorHandler);
